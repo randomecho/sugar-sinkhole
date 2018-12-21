@@ -69,17 +69,19 @@ def summary
   line << "\n"
 end
 
-copy_defs = ""
+if __FILE__ == $0
+  copy_defs = ""
 
-unless ARGV.empty?
-  workfiles = get_filenames(ARGV[0])
-  copy_defs << generate_copy_lines(workfiles)
+  unless ARGV.empty?
+    workfiles = get_filenames(ARGV[0])
+    copy_defs << generate_copy_lines(workfiles)
+  end
+
+  content = "<?php\n\n"
+  content << summary
+  content << boilerplate
+  content << "\n"
+  content << install_defs(copy_defs)
+
+  File.write('manifest.php', content)
 end
-
-content = "<?php\n\n"
-content << summary
-content << boilerplate
-content << "\n"
-content << install_defs(copy_defs)
-
-File.write('manifest.php', content)
