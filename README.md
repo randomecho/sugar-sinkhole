@@ -17,6 +17,17 @@ out working in Sugar.
   Reads from a manifest.php file and attempts fetch all the listed files
   necessary for the Module Loader package.
 
+- [Vagrant config setter](./vagrant-config.sh)
+
+  Update config.php to use values expected if using vagrant box from Sugar.
+
+  Example result:
+
+        array (
+            'db_host_name' => 'localhost', // 10.3.2.1,
+            'db_user_name' => 'root', // original_username,
+            'db_password' => 'root', // original_password,
+
 
 ## License
 
