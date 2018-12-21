@@ -3,8 +3,8 @@
 require 'date'
 
 class SugarManifest
-  def boilerplate
-    d = DateTime.now
+  def boilerplate(current_time = nil)
+    current_time ||= DateTime.now.strftime("%Y-%m-%d %H:%M:%S")
 
     line = "$manifest = [\n"
     line << "    'acceptable_sugar_versions' => ['regex_matches' => ['8.*']],\n"
@@ -15,7 +15,7 @@ class SugarManifest
     line << "    'is_uninstallable' => true,\n"
     line << "    'key' => $key,\n"
     line << "    'name' => $package_name,\n"
-    line << "    'published_date' => '"+d.strftime("%Y-%m-%d %H:%M:%S")+"',\n"
+    line << "    'published_date' => '"+current_time+"',\n"
     line << "    'type' => 'module',\n"
     line << "    'readme' => '',\n"
     line << "    'remove_tables' => '',\n"
@@ -23,7 +23,7 @@ class SugarManifest
     line << "];\n"
   end
 
-  def install_defs(copy_defs)
+  def install_defs(copy_defs = '')
     if copy_defs.empty?
       copy_defs << "        [\n"
       copy_defs << "            'from' => '<basepath>',\n"
