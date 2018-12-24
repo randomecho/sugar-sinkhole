@@ -67,5 +67,29 @@ list-of-filenames-as-prepared-by-generate_copy_lines    ]
       end
     end
   end
+
+  describe ".generate_copy_lines" do
+    describe "given empty array of filenames" do
+      it "creates empty string" do
+        expect(@manifester.generate_copy_lines([])).to eq("")
+      end
+    end
+
+    describe "given array of files" do
+      it "creates copydef block with those files" do
+        file_list = ["path/to/tofu", "money-in-the-banana-stand"]
+
+        expect(@manifester.generate_copy_lines(file_list)).to eq("        [
+            'from' => '<basepath>/path/to/tofu',
+            'to' => 'path/to/tofu',
+        ],
+        [
+            'from' => '<basepath>/money-in-the-banana-stand',
+            'to' => 'money-in-the-banana-stand',
+        ],
+")
+      end
+    end
+  end
 end
 
