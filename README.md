@@ -35,6 +35,11 @@ Some files have tests:
     rspec
 
 
+### Health check
+
+[![Build Status](https://travis-ci.com/randomecho/sugar-sinkhole.svg?branch=master)](https://travis-ci.com/randomecho/sugar-sinkhole)
+
+
 ## License
 
 Released under [BSD 3-Clause](./LICENSE).
