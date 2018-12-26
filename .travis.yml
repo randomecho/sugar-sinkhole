@@ -1,7 +1,9 @@
 language: ruby
 rvm:
   - 2.3
-install: gem install fakefs
+install:
+  - gem install fakefs
+  - gem install rspec
 script:
   - rspec
 notifications:
