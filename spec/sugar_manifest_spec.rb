@@ -1,3 +1,5 @@
+require 'pp'
+require 'fakefs/safe'
 require_relative '../sugar-manifest'
 
 describe SugarManifest do
@@ -88,6 +90,25 @@ list-of-filenames-as-prepared-by-generate_copy_lines    ]
             'to' => 'money-in-the-banana-stand',
         ],
 ")
+      end
+    end
+  end
+
+  describe ".get_filenames" do
+    describe "given file list with no actual files" do
+      it "creates empty string" do
+        expect(@manifester.get_filenames("")).to eq("")
+      end
+    end
+
+    describe "given file list" do
+      it "creates array of filenames" do
+        FakeFS.with_fresh do
+          file_with_pathnames = 'list_of_files.txt'
+          file_contents = "path/to/fountain-of-strewth\npath/to/reality"
+          File.open(file_with_pathnames, 'w') {|f| f.write(file_contents)}
+          expect(@manifester.get_filenames(file_with_pathnames)).to eq(["path/to/fountain-of-strewth", "path/to/reality"])
+        end
       end
     end
   end

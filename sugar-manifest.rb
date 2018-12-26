@@ -40,6 +40,10 @@ class SugarManifest
   end
 
   def get_filenames(file_list)
+    if file_list.empty?
+      return ""
+    end
+
     workfiles = []
     lines = File.readlines(file_list)
 
