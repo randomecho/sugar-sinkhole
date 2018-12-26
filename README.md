@@ -28,6 +28,12 @@ out working in Sugar.
             'db_user_name' => 'root', // original_username,
             'db_password' => 'root', // original_password,
 
+## Tests
+
+Some files have tests:
+
+    rspec
+
 
 ## License
 
