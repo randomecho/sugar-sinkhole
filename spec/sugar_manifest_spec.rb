@@ -112,5 +112,32 @@ list-of-filenames-as-prepared-by-generate_copy_lines    ]
       end
     end
   end
+
+  describe "chaining get_filenames, generate_copy_lines, install_defs" do
+    it "creates copydef generated block installdef" do
+      FakeFS.with_fresh do
+        file_with_pathnames = 'list_of_files.txt'
+        file_contents = "path/to/fountain-of-strewth\npath/to/reality"
+        File.open(file_with_pathnames, 'w') {|f| f.write(file_contents)}
+        copylines = @manifester.get_filenames(file_with_pathnames)
+        copydef = @manifester.generate_copy_lines(copylines)
+
+        expect(@manifester.install_defs(copydef)).to eq("$installdefs = [
+    'id' => strtolower(preg_replace('/([^a-zA-Z0-9])/', '-', $key.'_'.$package_name)),
+    'copy' => [
+        [
+            'from' => '<basepath>/path/to/fountain-of-strewth',
+            'to' => 'path/to/fountain-of-strewth',
+        ],
+        [
+            'from' => '<basepath>/path/to/reality',
+            'to' => 'path/to/reality',
+        ],
+    ]
+];
+")
+      end
+    end
+  end
 end
 
