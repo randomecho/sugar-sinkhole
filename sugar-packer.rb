@@ -13,6 +13,8 @@ def package_file(filename)
     File.write(filename, File.read(source_file))
 
     puts '+ ' + filename
+  else
+    puts "! Cannot find: " + source_file
   end
 end
 
@@ -29,7 +31,7 @@ end
 lines = File.readlines(manifest).grep /basepath/
 
 lines.each do |line|
-  filename = line.match(/'from' => '<basepath>\/(custom\/[a-zA-Z\/_\-]+.php)/)
+  filename = line.match(/'from' => '<basepath>\/(custom\/[a-zA-Z\/_\-.]+)'/)
   package_file(filename[1])
 end
 
