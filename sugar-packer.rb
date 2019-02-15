@@ -31,7 +31,7 @@ end
 lines = File.readlines(manifest).grep /basepath/
 
 lines.each do |line|
-  filename = line.match(/'from' => '<basepath>\/(custom\/[a-zA-Z\/_\-.]+)'/)
+  filename = line.match(/'from' => '<basepath>\/(custom\/[a-zA-Z0-9\/_\-.]+)'/)
   package_file(filename[1])
 end
 
