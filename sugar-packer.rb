@@ -4,8 +4,8 @@ require 'FileUtils'
 
 manifest = 'manifest.php'
 
-def package_file(filename)
-  source_file = "../../" + filename
+def package_file(filename, source_dir = "../../../")
+  source_file = source_dir + filename
 
   if File.file?(source_file)
     destination = File.dirname(filename)
@@ -28,10 +28,10 @@ unless File.open(manifest).read().include? "basepath"
   exit(1)
 end
 
+source_dir = ARGV[0].nil? ? '' ARGV[0]
 lines = File.readlines(manifest).grep /basepath/
 
 lines.each do |line|
   filename = line.match(/'from' => '<basepath>\/(custom\/[a-zA-Z0-9\/_\-.]+)'/)
-  package_file(filename[1])
+  package_file(filename[1], source_dir)
 end
-
