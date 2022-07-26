@@ -28,7 +28,7 @@ unless File.open(manifest).read().include? "basepath"
   exit(1)
 end
 
-source_dir = ARGV[0].nil? ? '' ARGV[0]
+source_dir = ARGV[0].nil? ? '' : ARGV[0]
 lines = File.readlines(manifest).grep /basepath/
 
 lines.each do |line|
