@@ -6,6 +6,11 @@ out working in Sugar.
 
 ## Scripts
 
+- [manifest-exists.rb](./manifest-exists.rb)
+
+  Verify all files mentioned in manifest.php exist in their
+  location and match case-sensitivity.
+
 - [sugar-manifest.rb](./sugar-manifest.rb)
 
   Generates a boilerplate manifest.php file. If a list of filenames
