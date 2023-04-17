@@ -3,6 +3,7 @@
 require 'FileUtils'
 
 $manifest_is_valid = true
+$file_count = 0
 
 def check_file_is_valid(source_dir, filename)
   source_file = source_dir + filename
@@ -49,6 +50,7 @@ lines.each do |line|
 
   unless filename.nil?
     check_file_is_valid(source_dir, filename[1])
+    $file_count+=1
   end
 end
 
@@ -56,3 +58,4 @@ if $manifest_is_valid
   puts "OK"
 end
 
+puts "Checked "+$file_count.to_s+" files"
