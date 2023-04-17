@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'FileUtils'
+require 'open3'
 
 $manifest_is_valid = true
 $file_count = 0
@@ -18,6 +19,11 @@ def check_file_is_valid(source_dir, filename)
     puts "! Case: " + filename
     $manifest_is_valid = false
   end
+
+  if check_valid_php(source_dir, filename) == false
+    puts "! Invalid PHP: " + filename
+    $manifest_is_valid = false
+  end
 end
 
 def check_file_case_sensitive(source_dir, filename)
@@ -26,6 +32,17 @@ def check_file_case_sensitive(source_dir, filename)
   source_dir += filepath
 
   return Dir[File.join(source_dir, "*")].select {|f| File.basename(f) == filename}.any?
+end
+
+def check_valid_php(source_dir, filename)
+  filepath = File.dirname(filename)
+  filename = filename.sub(filepath+'/', '')
+  source_dir += filepath
+  stdout_str, stderr_str, status = Open3.capture3('php -l '+source_dir+"/"+filename)
+  unless status.to_s.include? "exit 0"
+    puts stderr_str
+    $manifest_is_valid = false
+  end
 end
 
 manifest = ARGV[0].nil? ? '' : ARGV[0]
