@@ -7,7 +7,7 @@ class SugarManifest
     current_time ||= DateTime.now.strftime("%Y-%m-%d %H:%M:%S")
 
     line = "$manifest = [\n"
-    line << "    'acceptable_sugar_versions' => ['regex_matches' => ['[111213].*']],\n"
+    line << "    'acceptable_sugar_versions' => ['regex_matches' => ['[12131415].*']],\n"
     line << "    'acceptable_sugar_flavors' => ['PRO', 'ENT', 'ULT'],\n"
     line << "    'author' => $author,\n"
     line << "    'description' => $description,\n"
