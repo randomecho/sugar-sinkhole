@@ -71,7 +71,7 @@ class SugarManifest
     line << "$description = '';\n"
     line << "$key = 'SV-';\n"
     line << "$package_name = '';\n"
-    line << "$version = 0.1;\n"
+    line << "$version = 1.00;\n"
     line << "\n"
   end
 end
