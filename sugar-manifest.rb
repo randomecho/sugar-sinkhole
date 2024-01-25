@@ -7,19 +7,19 @@ class SugarManifest
     current_time ||= DateTime.now.strftime("%Y-%m-%d %H:%M:%S")
 
     line = "$manifest = [\n"
-    line << "    'acceptable_sugar_versions' => ['regex_matches' => ['[12131415].*']],\n"
+    line << "    'acceptable_sugar_versions' => ['regex_matches' => ['[131415].*']],\n"
     line << "    'acceptable_sugar_flavors' => ['PRO', 'ENT', 'ULT'],\n"
-    line << "    'author' => $author,\n"
-    line << "    'description' => $description,\n"
+    line << "    'author' => 'Name',\n"
+    line << "    'description' => 'Short description on what package does',\n"
     line << "    'icon' => '',\n"
     line << "    'is_uninstallable' => true,\n"
-    line << "    'key' => $key,\n"
-    line << "    'name' => $package_name,\n"
+    line << "    'key' => 'unique-package-id',\n"
+    line << "    'name' => 'Package Name',\n"
     line << "    'published_date' => '"+current_time+"',\n"
     line << "    'type' => 'module',\n"
     line << "    'readme' => '',\n"
     line << "    'remove_tables' => '',\n"
-    line << "    'version' => $version,\n"
+    line << "    'version' => 1.00,\n"
     line << "];\n"
   end
 
@@ -32,7 +32,7 @@ class SugarManifest
     end
 
     line = "$installdefs = [\n"
-    line << "    'id' => strtolower(preg_replace('/([^a-zA-Z0-9])/', '-', $key.'_'.$package_name)),\n"
+    line << "    'id' => 'unique-package-id',\n"
     line << "    'copy' => [\n"
     line << copy_defs
     line << "    ]\n"
@@ -65,15 +65,6 @@ class SugarManifest
 
     copy_defs << ""
   end
-
-  def summary
-    line = "$author = 'Soon Van';\n"
-    line << "$description = '';\n"
-    line << "$key = 'SV-';\n"
-    line << "$package_name = '';\n"
-    line << "$version = 1.00;\n"
-    line << "\n"
-  end
 end
 
 if __FILE__ == $0
@@ -86,7 +77,6 @@ if __FILE__ == $0
   end
 
   content = "<?php\n\n"
-  content << manifester.summary
   content << manifester.boilerplate
   content << "\n"
   content << manifester.install_defs(copy_defs)
