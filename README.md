@@ -11,7 +11,7 @@ out working in Sugar.
   Verify all files mentioned in manifest.php exist in their
   location and match case-sensitivity.
 
-- [sugar-manifest.rb](./sugar-manifest.rb)
+- [create-manifest.rb](./create-manifest.rb)
 
   Generates a boilerplate manifest.php file. If a list of filenames
   is used as an argument it will also create the copy block under
