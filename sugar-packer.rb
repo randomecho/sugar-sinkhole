@@ -33,5 +33,10 @@ lines = File.readlines(manifest).grep /basepath/
 
 lines.each do |line|
   filename = line.match(/'from' => '<basepath>\/(custom\/[a-zA-Z0-9\/_\-.]+)'/)
-  package_file(filename[1], source_dir)
+
+  if filename != nil
+    package_file(filename[1], source_dir)
+  else
+    print "! " + line.strip() + "\n"
+  end
 end
