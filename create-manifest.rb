@@ -19,7 +19,7 @@ class SugarManifest
     line << "    'type' => 'module',\n"
     line << "    'readme' => '',\n"
     line << "    'remove_tables' => '',\n"
-    line << "    'version' => 1.00,\n"
+    line << "    'version' => '0.1.0',\n"
     line << "];\n"
   end
 
