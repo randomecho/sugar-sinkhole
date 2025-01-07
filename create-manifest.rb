@@ -1,15 +1,18 @@
 #!/usr/bin/env ruby
 
 require 'date'
+require 'fileutils'
+require 'yaml'
 
 class SugarManifest
   def boilerplate(current_time = nil)
     current_time ||= DateTime.now.strftime("%Y-%m-%d %H:%M:%S")
+    config = self.get_config
 
     line = "$manifest = [\n"
     line << "    'acceptable_sugar_versions' => ['regex_matches' => ['[131415].*']],\n"
     line << "    'acceptable_sugar_flavors' => ['PRO', 'ENT', 'ULT'],\n"
-    line << "    'author' => 'Name',\n"
+    line << "    'author' => '" +config['author_name']+ "',\n"
     line << "    'description' => 'Short description on what package does',\n"
     line << "    'icon' => '',\n"
     line << "    'is_uninstallable' => true,\n"
@@ -21,6 +24,14 @@ class SugarManifest
     line << "    'remove_tables' => '',\n"
     line << "    'version' => '0.1.0',\n"
     line << "];\n"
+  end
+
+  def get_config
+    unless File.exist?(__dir__  + "/config.yaml")
+      FileUtils.cp(__dir__  + "/config.example.yaml", __dir__  + "/config.yaml")
+    end
+
+    return YAML.load_file(__dir__  + "/config.yaml")
   end
 
   def install_defs(copy_defs = '')
