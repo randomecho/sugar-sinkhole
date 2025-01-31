@@ -45,7 +45,25 @@ def check_valid_php(source_dir, filename)
   end
 end
 
+def get_package_details(manifest)
+  regex_package_name = /'name' => '([\w .']+)'/
+  regex_version = /'version' => '([\d\w .']+)'/
+  package_name_line = File.readlines(manifest).grep(regex_package_name)
+  package_name = package_name_line[0].match(regex_package_name)
+
+  if package_name.nil?
+    return ''
+  else
+    version_line = File.readlines(manifest).grep(regex_version)
+    version = version_line[0].match(regex_version)
+
+    return '📦 ' + package_name[1] + ': version ' + version[1]
+  end
+end
+
 manifest = ARGV[0].nil? ? '' : ARGV[0]
+
+puts get_package_details(manifest)
 
 unless File.file?(manifest)
   print "Missing " + manifest + " to read from\n"
@@ -69,6 +87,7 @@ lines.each do |line|
     check_file_is_valid(source_dir, filename[1])
     $file_count+=1
   end
+
 end
 
 if $manifest_is_valid
