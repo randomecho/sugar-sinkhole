@@ -46,8 +46,8 @@ def check_valid_php(source_dir, filename)
 end
 
 def get_package_details(manifest)
-  regex_package_name = /'name' => '([\w .']+)'/
-  regex_version = /'version' => '([\d\w .']+)'/
+  regex_package_name = /'name' => '([\w\d -.']+)'/
+  regex_version = /'version' => '([\w\d .']+)'/
   package_name_line = File.readlines(manifest).grep(regex_package_name)
   package_name = package_name_line[0].match(regex_package_name)
 
