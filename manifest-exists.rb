@@ -26,6 +26,13 @@ def check_file_is_valid(source_dir, filename)
   end
 end
 
+def check_manifest_is_valid()
+  if check_valid_php('', 'manifest.php') == false
+    puts "! Invalid Manifest"
+    $manifest_is_valid = false
+  end
+end
+
 def check_file_case_sensitive(source_dir, filename)
   filepath = File.dirname(filename)
   filename = filename.sub(filepath+'/', '')
@@ -39,8 +46,9 @@ def check_valid_php(source_dir, filename)
   filename = filename.sub(filepath+'/', '')
   source_dir += filepath
   stdout_str, stderr_str, status = Open3.capture3('php -l '+source_dir+"/"+filename)
+
   unless status.to_s.include? "exit 0"
-    puts stderr_str
+    puts "⚠️  "+stderr_str
     $manifest_is_valid = false
   end
 end
@@ -87,8 +95,9 @@ lines.each do |line|
     check_file_is_valid(source_dir, filename[1])
     $file_count+=1
   end
-
 end
+
+check_manifest_is_valid
 
 if $manifest_is_valid
   puts "OK"
