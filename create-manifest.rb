@@ -10,7 +10,7 @@ class SugarManifest
     config = self.get_config
 
     line = "$manifest = [\n"
-    line << "    'acceptable_sugar_versions' => ['regex_matches' => ['[131415].*']],\n"
+    line << "    'acceptable_sugar_versions' => ['regex_matches' => ['[131425].*']],\n"
     line << "    'acceptable_sugar_flavors' => ['PRO', 'ENT', 'ULT'],\n"
     line << "    'author' => '" +config['author_name']+ "',\n"
     line << "    'description' => 'Short description on what package does',\n"
