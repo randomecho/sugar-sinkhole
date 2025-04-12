@@ -76,9 +76,30 @@ class SugarManifest
 
     copy_defs << ""
   end
+
+  def rebuild_installdefs(manifest_file, copydef_lines)
+    install_defs_line = 0
+
+    File.open(manifest_file).each_line.with_index(0) do |line, index|
+       install_defs_line = index if line['$installdefs']
+    end
+
+    if install_defs_line > 0
+      existing_manifest = ""
+      File.open(manifest_file).each_line.with_index(0) do |line, index|
+        if index < install_defs_line
+          existing_manifest << line
+        end
+      end
+
+      existing_manifest << copydef_lines
+      File.write(manifest_file, existing_manifest)
+    end
+  end
 end
 
 if __FILE__ == $0
+  manifest_file = "manifest.php"
   copy_defs = ""
   manifester = SugarManifest.new
 
@@ -87,10 +108,15 @@ if __FILE__ == $0
     copy_defs << manifester.generate_copy_lines(workfiles)
   end
 
-  content = "<?php\n\n"
-  content << manifester.boilerplate
-  content << "\n"
-  content << manifester.install_defs(copy_defs)
+  if File.file?(manifest_file)
+    copydef_lines = manifester.install_defs(copy_defs)
+    manifester.rebuild_installdefs(manifest_file, copydef_lines)
+  else
+    content = "<?php\n\n"
+    content << manifester.boilerplate
+    content << "\n"
+    content << manifester.install_defs(copy_defs)
 
-  File.write('manifest.php', content)
+    File.write(manifest_file, content)
+  end
 end
