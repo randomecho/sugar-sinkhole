@@ -31,6 +31,13 @@ end
 source_dir = ARGV[0].nil? ? '' : ARGV[0]
 lines = File.readlines(manifest).grep /basepath/
 
+if source_dir != '' && !File.directory?(source_dir)
+  print "Invalid source_dir: " + source_dir + "\n"
+  exit(1)
+end
+
+print "Using source_dir: " + source_dir + "\n"
+
 lines.each do |line|
   filename = line.match(/'from' => '<basepath>\/(custom\/[a-zA-Z0-9\/_\-.]+)'/)
 
