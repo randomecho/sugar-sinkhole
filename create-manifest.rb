@@ -34,7 +34,7 @@ class SugarManifest
     return YAML.load_file(__dir__  + "/config.yaml")
   end
 
-  def install_defs(copy_defs = '')
+  def install_defs(copy_defs = '', package_key = 'unique-package-id')
     if copy_defs.empty?
       copy_defs << "        [\n"
       copy_defs << "            'from' => '<basepath>',\n"
@@ -43,7 +43,7 @@ class SugarManifest
     end
 
     line = "$installdefs = [\n"
-    line << "    'id' => 'unique-package-id',\n"
+    line << "    'id' => '" +package_key+ "',\n"
     line << "    'copy' => [\n"
     line << copy_defs
     line << "    ]\n"
@@ -77,11 +77,24 @@ class SugarManifest
     copy_defs << ""
   end
 
-  def rebuild_installdefs(manifest_file, copydef_lines)
-    install_defs_line = 0
+  def get_package_key(manifest_file)
+    package_key = ''
 
     File.open(manifest_file).each_line.with_index(0) do |line, index|
-       install_defs_line = index if line['$installdefs']
+      if package_key.nil? or package_key == ''
+        package_key = line.match(/'key' => +'([a-zA-Z0-9\/_\-.]+)'/)
+      end
+    end
+
+    return package_key[1]
+  end
+
+  def rebuild_installdefs(manifest_file, copydef_lines)
+    install_defs_line = 0
+    package_key = ''
+
+    File.open(manifest_file).each_line.with_index(0) do |line, index|
+      install_defs_line = index if line['$installdefs']
     end
 
     if install_defs_line > 0
@@ -109,7 +122,8 @@ if __FILE__ == $0
   end
 
   if File.file?(manifest_file)
-    copydef_lines = manifester.install_defs(copy_defs)
+    package_key = manifester.get_package_key(manifest_file)
+    copydef_lines = manifester.install_defs(copy_defs, package_key)
     manifester.rebuild_installdefs(manifest_file, copydef_lines)
   else
     content = "<?php\n\n"
